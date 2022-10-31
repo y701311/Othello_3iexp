@@ -26,6 +26,7 @@ class Game:
     def play(self) -> None:
         """オセロをプレイする
         """
+        self.board = BitBoard()
         self.ui.display(self.board)
         while True:
             if self.board.player == Disc.black:
