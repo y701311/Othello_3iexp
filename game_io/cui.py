@@ -74,12 +74,15 @@ class CUI:
         """
         print("Please enter row and column. For example, 53 means row=5, column=3.")
         print("If you will pass, input \"pass\".")
+        print("If you want to return to the previous board, input \"undo\".")
 
         location = Location(-1, -1)
         while (not location.checkRange()) or (not board.canPut(location)):
             inputStr = input()
             if inputStr == "pass":
                 return "pass"
+            elif inputStr == "undo":
+                return "undo"
             else:
                 try:
                     locationInput = int(inputStr)

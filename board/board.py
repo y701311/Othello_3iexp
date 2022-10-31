@@ -56,6 +56,11 @@ class Board:
         """
         pass
 
+    def undo(self) -> None:
+        """ボードの状況を1手分戻す
+        """
+        pass
+
     def getWinner(self) -> Disc:
         """石の数がより多い色を返す
 

@@ -35,6 +35,10 @@ class Game:
             
             if selection == "pass":
                 self.board.passPut()
+            elif selection == "undo":
+                self.board.undo()
+                self.ui.display(self.board)
+                continue
             else:
                 self.board.put(selection)
 

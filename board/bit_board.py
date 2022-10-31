@@ -11,6 +11,10 @@ class BitBoard(Board):
         # 打っているプレイヤーの色
         self.player = Disc.black
         self.turn = 1
+        # 棋譜を保存するスタック
+        self.moveRecord = []
+        # 反転箇所を保存するスタック
+        self._reverseRecord = []
         self.playerBoard = 0x0000000810000000
         self.opponentBoard = 0x0000001008000000
 
@@ -35,11 +39,16 @@ class BitBoard(Board):
         """
         if self.canPut(location):
             self._reverse(location)
+            self.moveRecord.append(location)
+        else:
+            # 無効な手でパスを表す
+            self.moveRecord.append(Location(-1, -1))
 
     def passPut(self) -> None:
         """パスをする
         """
-        pass
+        # 無効な手でパスを表す
+        self.moveRecord.append(Location(-1, -1))
 
     def canPut(self, location: Location) -> bool:
         """指定された場所に石を置けるかどうかを返す
@@ -181,6 +190,8 @@ class BitBoard(Board):
         self.playerBoard ^= (put | rev)
         self.opponentBoard ^= rev
 
+        self._reverseRecord.append(rev)
+
     def _getReverseBoard(self, put: int) -> int:
         """反転箇所のビットが立っているボードを返す
 
@@ -304,6 +315,13 @@ class BitBoard(Board):
         self._swapBoard()
         self._changePlayerColor()
         self.turn += 1
+    
+    def _revertBoardStatus(self) -> None:
+        """ボードのパラメータを1手前へ戻す
+        """
+        self._swapBoard()
+        self._changePlayerColor()
+        self.turn -= 1
 
     def _swapBoard(self) -> None:
         """自分と相手のボードを入れ替える
@@ -319,6 +337,22 @@ class BitBoard(Board):
             self.player = Disc.white
         else:
             self.player = Disc.black
+
+    def undo(self) -> None:
+        """ボードの状況を1手分戻す
+        """
+        if self.turn <= 1:
+            return
+        
+        self._revertBoardStatus()
+        location = self.moveRecord.pop()
+
+        if location.checkRange():
+            put = self._locationToBits(location)
+            rev = self._reverseRecord.pop()
+            # XORを利用しているから、2回ひっくり返すと元に戻る
+            self.playerBoard ^= (put | rev)
+            self.opponentBoard ^= rev
 
     def getWinner(self) -> Disc:
         """石の数がより多い色を返す
