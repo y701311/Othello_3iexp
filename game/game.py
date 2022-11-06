@@ -3,6 +3,7 @@ from board.bit_board import BitBoard
 from solver.solver import Solver
 from solver.human import Human
 from solver.random import Random
+from solver.opponent_move_minimizer import OpponentMoveMinimizer
 from game_io.cui import CUI
 
 
@@ -11,7 +12,7 @@ class Game:
     """
 
     def __init__(self, firstSolverName: str = "Human", secondSolverName: str = "Human") -> None:
-        """使用できるソルバー名: "Human", "Random"
+        """使用できるソルバー名: "Human", "Random", "OpponentMoveMinimizer"
 
         Args:
             firstSolverName (str, optional): 黒石（先攻）の手番のソルバー名. Defaults to "Human".
@@ -110,6 +111,8 @@ class Game:
     def generateSolver(self, name: str) -> Solver:
         if name == "Random":
             solver = Random()
+        elif name == "OpponentMoveMinimizer":
+            solver = OpponentMoveMinimizer()
         else:
             # デフォルトでは人間が打つ
             solver = Human(self.ui)
