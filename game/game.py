@@ -4,6 +4,7 @@ from solver.solver import Solver
 from solver.human import Human
 from solver.random import Random
 from solver.opponent_move_minimizer import OpponentMoveMinimizer
+from solver.location_weight_alphabeta import LocationWeight_Alphabeta
 from game_io.cui import CUI
 
 
@@ -113,6 +114,8 @@ class Game:
             solver = Random()
         elif name == "OpponentMoveMinimizer":
             solver = OpponentMoveMinimizer()
+        elif name == "LocationWeight_Alphabeta":
+            solver = LocationWeight_Alphabeta(depth=5)
         else:
             # デフォルトでは人間が打つ
             solver = Human(self.ui)
