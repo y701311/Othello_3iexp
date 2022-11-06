@@ -3,10 +3,7 @@ from board.bit_board import BitBoard
 from solver.solver import Solver
 from solver.human import Human
 from solver.random import Random
-from solver.location_weight_alphabeta_copy import LocationWeight_Alphabeta_copy
-from solver.location_weight_alphabeta_stack import LocationWeight_Alphabeta_stack
 from game_io.cui import CUI
-import time
 
 
 class Game:
@@ -33,15 +30,9 @@ class Game:
         self.ui.display(self.board)
         while True:
             if self.board.player == Disc.black:
-                start = time.time()
                 selection = self.firstSolver.selectLocation(self.board)
-                end = time.time()
-                print(f"first solver thinking time: {end - start}s")
             elif self.board.player == Disc.white:
-                start = time.time()
                 selection = self.secondSolver.selectLocation(self.board)
-                end = time.time()
-                print(f"second solver thinking time: {end - start}s")
             
             if selection == "pass":
                 self.board.passPut()
@@ -119,10 +110,6 @@ class Game:
     def generateSolver(self, name: str) -> Solver:
         if name == "Random":
             solver = Random()
-        elif name == "LocationWeight_Alphabeta_copy":
-            solver = LocationWeight_Alphabeta_copy(depth=5)
-        elif name == "LocationWeight_Alphabeta_stack":
-            solver = LocationWeight_Alphabeta_stack(depth=5)
         else:
             # デフォルトでは人間が打つ
             solver = Human(self.ui)
