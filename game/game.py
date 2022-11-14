@@ -5,6 +5,7 @@ from solver.human import Human
 from solver.random import Random
 from solver.opponent_move_minimizer import OpponentMoveMinimizer
 from solver.location_weight_alphabeta import LocationWeight_Alphabeta
+from solver.location_weight_minimax import LocationWeight_Minimax
 from game_io.cui import CUI
 
 
@@ -13,7 +14,8 @@ class Game:
     """
 
     def __init__(self, firstSolverName: str = "Human", secondSolverName: str = "Human") -> None:
-        """使用できるソルバー名: "Human", "Random", "OpponentMoveMinimizer", "LocationWeight_Alphabeta"
+        """使用できるソルバー名: "Human", "Random", "OpponentMoveMinimizer", "LocationWeight_Alphabeta",
+        "LocationWeight_Minimax"
 
         Args:
             firstSolverName (str, optional): 黒石（先攻）の手番のソルバー名. Defaults to "Human".
@@ -116,6 +118,8 @@ class Game:
             solver = OpponentMoveMinimizer()
         elif name == "LocationWeight_Alphabeta":
             solver = LocationWeight_Alphabeta(depth=5)
+        elif name == "LocationWeight_Minimax":
+            solver = LocationWeight_Minimax(depth=5)
         else:
             # デフォルトでは人間が打つ
             solver = Human(self.ui)
