@@ -13,7 +13,7 @@ class Game:
     """
 
     def __init__(self, firstSolverName: str = "Human", secondSolverName: str = "Human") -> None:
-        """使用できるソルバー名: "Human", "Random", "OpponentMoveMinimizer"
+        """使用できるソルバー名: "Human", "Random", "OpponentMoveMinimizer", "LocationWeight_Alphabeta"
 
         Args:
             firstSolverName (str, optional): 黒石（先攻）の手番のソルバー名. Defaults to "Human".
