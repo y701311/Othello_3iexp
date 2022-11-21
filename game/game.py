@@ -6,6 +6,8 @@ from solver.random import Random
 from solver.opponent_move_minimizer import OpponentMoveMinimizer
 from solver.location_weight_alphabeta import LocationWeight_Alphabeta
 from solver.location_weight_minimax import LocationWeight_Minimax
+from solver.premitive_monte_carlo_method import PrimitiveMonteCarloMethod
+from solver.search_algorithm.MCTS.monte_carlo_tree_search import MonteCarloTreeSearch
 from game_io.cui import CUI
 
 
@@ -15,7 +17,7 @@ class Game:
 
     def __init__(self, firstSolverName: str = "Human", secondSolverName: str = "Human") -> None:
         """使用できるソルバー名: "Human", "Random", "OpponentMoveMinimizer", "LocationWeight_Alphabeta",
-        "LocationWeight_Minimax"
+        "LocationWeight_Minimax", "PrimitiveMonteCarloMethod", "MonteCarloTreeSearch"
 
         Args:
             firstSolverName (str, optional): 黒石（先攻）の手番のソルバー名. Defaults to "Human".
@@ -120,6 +122,10 @@ class Game:
             solver = LocationWeight_Alphabeta(depth=5)
         elif name == "LocationWeight_Minimax":
             solver = LocationWeight_Minimax(depth=5)
+        elif name == "PrimitiveMonteCarloMethod":
+            solver = PrimitiveMonteCarloMethod(samplingNum=100)
+        elif name == "MonteCarloTreeSearch":
+            solver = MonteCarloTreeSearch(samplingNum=1000)
         else:
             # デフォルトでは人間が打つ
             solver = Human(self.ui)
